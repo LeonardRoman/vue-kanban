@@ -15,9 +15,16 @@ body {
 }
 
 button {
-  //display: block;
+  display: block;
   border: none;
   background: none;
+  cursor: pointer;
+  transform: perspective(1px) translateZ(0);
+  transition-duration: 0.3s;
+}
+
+button:hover, button:active {
+  transform: scale(1.04);
 }
 
 ol, ul > * {
@@ -26,4 +33,9 @@ ol, ul > * {
 
 *:focus {
   outline: none;
+}
+
+input, textarea {
+  border: none;
+  resize: none;
 }

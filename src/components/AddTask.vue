@@ -2,7 +2,7 @@
   .container
     input.addtask(
       v-if="showAddBlock"
-      v-model='text'
+      v-model='name'
       placeholder="Введите текст карточки")
     .control
       button.control-btn.btn-add(
@@ -26,7 +26,7 @@
     data () {
       return {
         showAddBlock: false,
-        text: ''
+        name: ''
       }
     },
     methods: {
@@ -34,8 +34,13 @@
         this.showAddBlock = !this.showAddBlock
       },
       createTask () {
-        this.$store.commit('addTask', { index: this.indexStatus, text: this.text })
-        this.text = ''
+        if (this.name.trim() !== '') {
+          this.$store.commit('createTask', {
+            indexStatus: this.indexStatus,
+            name: this.name
+          })
+        }
+        this.name = ''
         this.toggleControlButton()
       }
     }

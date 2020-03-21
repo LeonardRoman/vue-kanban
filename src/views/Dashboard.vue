@@ -6,21 +6,30 @@
       .dashboard__column-header(v-text="status.title")
       .dashboard__column-content(
         v-for="(task, indexTask) of status.tasks"
-        :key="`${task.title} + ${indexTask}`")
-        p {{task.text}}
+        :key="'task_' + task.id"
+        @click="getCurrentTask({name: task.name, description: task.description, indexStatus, id: task.id})")
+        p {{task.name}}
       AddTask(:indexStatus="indexStatus")
+    EditTask(
+      v-if="showEditBlock"
+      @toggleEditBlock="toggleEditBlock"
+      @updateTask="updateTask"
+      :currentTask="currentTask")
 </template>
 
 <script>
   import AddTask from '@/components/AddTask'
+  import EditTask from '@/components/EditTask'
   import { mapState } from 'vuex'
 
   export default {
     name: 'Dashboard',
-    components: { AddTask },
+    components: { AddTask, EditTask },
     data () {
       return {
-        showAddBlock: false
+        showEditBlock: false,
+        showAddBlock: false,
+        currentTask: {}
       }
     },
     computed: {
@@ -30,8 +39,20 @@
       toggleControlButton () {
         this.showAddBlock = !this.showAddBlock
       },
-      addCard () {
-        this.toggleControlButton()
+      toggleEditBlock () {
+        this.showEditBlock = !this.showEditBlock
+      },
+      getCurrentTask (task) {
+        this.currentTask = task
+        this.toggleEditBlock()
+      },
+      updateTask () {
+        this.$store.commit('updateTask', {
+          indexStatus: this.currentTask.indexStatus,
+          taskId: this.currentTask.id,
+          name: this.currentTask.name,
+          description: this.currentTask.description,
+        })
       }
     }
   }
@@ -43,6 +64,7 @@
     grid-template-columns: 1fr 1fr 1fr;
     justify-content: center;
     padding: 36px 24px 0 24px;
+    align-items: first baseline;
 
     &__column.col-work {
       grid-column: 1;
@@ -73,13 +95,13 @@
       }
 
       &-content {
-        /*max-height: 52px;*/
         padding: 8px 12px;
         background-color: $background-text;
         color: $color-content;
         margin-bottom: 16px;
         box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
         border-radius: 2px;
+        cursor: pointer;
 
         p {
           display: -webkit-box;

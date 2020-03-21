@@ -5,24 +5,37 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    statuses: [
+      { id: 1, class: 'work', title: 'В работе' },
+      { id: 2, class: 'check', title: 'На проверке' },
+      { id: 3, class: 'done', title: 'Выполнено' },
+    ],
     tasksByStatus: [
       {
+        id: 1,
         title: 'В работе',
         class: 'work',
         tasks: [
-          { text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, non?' },
-          { text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, non?' },
-          { text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, non?' },
-          { text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, non?' },
-          { text: 'asdfasdf ;asdjfas audsfyhoiasndfasiodfp ash a  adfasdf adsfas asdf adsfdfasdf asdf asdf asasdf asdfaf asdfasdfadasdfasf dsfa sdasdf asdasdfdsa asdfasdf asdfsad fasdsdhfa pahsdfpoasid poasdf pao' },
+          { id: 1, name: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, non?' },
+          { id: 3, name: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, non?' },
+          { id: 4, name: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, non?' },
+          { id: 5, name: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, non?' },
+          {
+            id: 6,
+            name: 'asdfasdf ;asdjfas audsfyhoiasndfasiodfp ash a  adfasdf adsfas asdf adsfdfasdf asdf ' +
+              'asdf asasdf asdfaf asdfasdfadasdfasf dsfa sdasdf asdasdfdsa asdfasdf asdfsad fasdsdhfa ' +
+              'pahsdfpoasid poasdf pao'
+          },
         ]
       },
       {
+        id: 2,
         title: 'На проверке',
         class: 'check',
         tasks: [
           {
-            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad culpa debitis doloremque dolorum' +
+            id: 7,
+            name: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad culpa debitis doloremque dolorum' +
               ' enim error eveniet fuga incidunt magnam maiores modi nobis, non odit, officia optio possimus ' +
               'quod reprehenderit temporibus ullam voluptatem! Culpa in iusto minus nesciunt nisi quis, soluta ' +
               'voluptatem. Architecto eius harum illum iure, minima nisi obcaecati! Ad autem consectetur ducimus ' +
@@ -31,44 +44,57 @@ export default new Vuex.Store({
               ' debitis deleniti dicta dolor dolore eligendi, exercitationem expedita fugiat fugit id illo magnam ' +
               'minus, nemo odio officia provident quae quibusdam repellat repellendus totam vel veniam?'
           },
-          { text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, non?' },
-          { text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, non?' },
-          { text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, non?' },
-          { text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, non?' },],
+          { id: 8, name: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, non?' },
+          { id: 9, name: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, non?' },
+          { id: 10, name: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, non?' },
+          { id: 11, name: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, non?' },],
       },
       {
+        id: 3,
         title: 'Выполнено',
         class: 'done',
         tasks: [
-          { text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, non?' },
-          { text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, non?' },
+          { id: 12, name: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, non?' },
+          { id: 13, name: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, non?' },
           {
-            text: 'as sdfa dfasdfdfasdf asdfi asidfjasd;fjas jadslfkjasd;j asdfjasdifjasdjf ;klasjdf;l jasdfj' +
+            id: 14, name: 'as sdfa dfasdfdfasdf asdfi asidfjasd;fjas jadslfkjasd;j asdfjasdifjasdjf ;klasjdf;l jasdfj' +
               ' as dfjasdhfasd;fsjadfieaf lkjsdaflj asdoifjsladkj ;alsdfja;sdfjasdfgasudfh; asdfjas;dfijasdoifjasdfn ' +
               'asdkfjas;dlfjas;dfj'
           },
-          { text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, non?' },
-          { text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, non?' },
+          { id: 15, name: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, non?' },
+          { id: 16, name: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, non?' },
         ],
       }
     ]
   },
   mutations: {
-    addTask: (state, payload) => {
-      if (payload.text.trim() !== '') {
-        state.tasksByStatus[payload.index].tasks.push({ text: payload.text })
-      }
+    createTask: (state, payload) => {
+      state.tasksByStatus[payload.indexStatus].tasks.push({
+        id: `f${(~~(Math.random() * 1e8)).toString(16)}`, // Заглушка. Получить id от API
+        name: payload.name,
+      })
     },
-    /* Заглушка: остальные методы с операций с задачами */
-    // changeStatusTask: (state, payload) => state.cards[payload.index].status = payload.status,
-    // changeTextTask: (state, payload) => state.cards[payload.index] = payload.text,
-    // destroyTask: (state, payload) => state.cards.splice(payload.index, 1),
+    // getTaskById: (state, id) => {
+    //   return state.tasksByStatus.find(s => s.tasks.filter(t => t.id === id))
+    // },
+    updateTask: (state, payload) => {
+      state.tasksByStatus[payload.indexStatus].tasks.forEach(t => {
+        if (t.id === payload.id) {
+          t.name = payload.name
+          t.descition = payload.descition
+        }
+      })
+    },
+    /* Заглушка: остальные методы операций с задачами */
+    // changeStatusTask: (state, payload) => state.tasks[payload.index].status = payload.status,
+    // changeTextTask: (state, payload) => state.tasks[payload.index] = payload.text,
+    // destroyTask: (state, payload) => state.tasks.splice(payload.index, 1),
     /* Заглушка: Раскидать по статусам */
-    //filterTasks: (state, payload) => payload...
+    //filterTasksByStatus: (state, payload) => payload...
 
   },
   actions: {
-    /*Заглушка: получить c сервера  */
+    /*Заглушка: получить c API список задач */
     //downloadTasks ({ commit }) {
     // ...
     // commit("filterTasks")

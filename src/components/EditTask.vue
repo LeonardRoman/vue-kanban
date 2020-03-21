@@ -3,7 +3,7 @@
     form.modal
       button.modal-btn.btn-no(
         @click="closeTask")
-      textarea.modal-header(v-model="currentTask.name" @click="autoResize" ref="headerInput")
+      textarea.modal-header(v-model="currentTask.name" ref="headerInput")
       textarea.modal-description(
         placeholder="Описание"
         v-model="currentTask.description")
@@ -17,6 +17,14 @@
   export default {
     name: 'EditTask',
     props: { currentTask: Object },
+    data () {
+      return {
+        task: null
+      }
+    },
+    mounted () {
+      this.autoResize()
+    },
     methods: {
       updateTask () {
         this.$emit('updateTask')
@@ -24,6 +32,7 @@
       },
       closeTask () {
         this.$emit('toggleEditBlock')
+        this.$router.go(-1)
       },
       autoResize () {
         this.$refs.headerInput.style = 'height:' + this.$refs.headerInput.scrollHeight + 'px'
@@ -41,7 +50,6 @@
     bottom: 0;
     left: 0;
     background-color: rgba(black, .3);
-    /*padding-top: 40px;*/
 
     .modal {
       position: relative;
@@ -55,8 +63,8 @@
 
       &-header {
         width: 95%;
+        height: auto;
         margin-bottom: 16px;
-        height: 57px;
         resize: none;
         overflow: hidden;
         background-color: $background-card;
@@ -65,16 +73,12 @@
         line-height: 28px;
         box-shadow: 0 1px 1px rgba(0, 0, 0, 0);
         border-radius: 2px;
-        transition: height 1s;
       }
 
       &-header:focus {
         background-color: $background-text;
         box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
         border-radius: 2px;
-        height: auto;
-        transition: height 1s;
-        display: inline-block
       }
 
       &-description {

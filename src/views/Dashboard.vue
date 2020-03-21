@@ -44,6 +44,7 @@
       },
       getCurrentTask (task) {
         this.currentTask = task
+        this.$router.push(`/task/${task.id}`)
         this.toggleEditBlock()
       },
       updateTask () {
@@ -53,6 +54,7 @@
           name: this.currentTask.name,
           description: this.currentTask.description,
         })
+        this.$nextTick()
       }
     }
   }

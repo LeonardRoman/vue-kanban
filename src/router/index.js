@@ -6,14 +6,16 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Dashboard',
-    component: () => import('@/views/Dashboard')
+    name: 'dashboard',
+    component: () => import('@/views/Dashboard'),
+    children: [{
+      path: '/task/:id',
+      name: 'task',
+      component: () => import('@/components/EditTask'),
+      props: true
+    },]
   },
-  // {
-  //   path: '/Card/:id',
-  //   name: 'Card',
-  //   component: () => import('@/components/Card')
-  // },
+
 ]
 
 const router = new VueRouter({

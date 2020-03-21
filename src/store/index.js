@@ -74,20 +74,19 @@ export default new Vuex.Store({
         name: payload.name,
       })
     },
-    // getTaskById: (state, id) => {
-    //   return state.tasksByStatus.find(s => s.tasks.filter(t => t.id === id))
-    // },
     updateTask: (state, payload) => {
+      // console.log(payload)
+      let task = { name: null, description: null }
       state.tasksByStatus[payload.indexStatus].tasks.forEach(t => {
-        if (t.id === payload.id) {
+        if (t.id === payload.taskId) {
           t.name = payload.name
-          t.descition = payload.descition
+          t.descition = payload.description
+          task.name = payload.name
+          task.descition = payload.description
         }
       })
     },
     /* Заглушка: остальные методы операций с задачами */
-    // changeStatusTask: (state, payload) => state.tasks[payload.index].status = payload.status,
-    // changeTextTask: (state, payload) => state.tasks[payload.index] = payload.text,
     // destroyTask: (state, payload) => state.tasks.splice(payload.index, 1),
     /* Заглушка: Раскидать по статусам */
     //filterTasksByStatus: (state, payload) => payload...

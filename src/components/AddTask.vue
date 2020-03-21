@@ -77,11 +77,18 @@
 
     &-btn.btn-add {
       width: 256px;
+      padding: 0 12px 0 39px;
     }
+
+    &-btn.btn-add:hover {
+      background-color: #C4C4C4;
+    }
+
 
     &-btn.btn-add:before {
       @include pseudo-element;
       top: 9px;
+      left: 12px;
       background-image: url("~@/assets/images/icon-add.svg");
     }
 
@@ -96,12 +103,17 @@
     &-btn.btn-no::before {
       @include pseudo-element;
       top: 9px;
-      left: -24px;
+      left: 13px;
       background-image: url("~@/assets/images/icon-cancel.svg");
     }
 
     &-btn.btn-no {
-      margin-left: 24px;
+      height: 32px;
+      padding: 0 12px 0 39px;
+    }
+
+    &-btn.btn-no:hover {
+      background-color: #C4C4C4;
     }
   }
 

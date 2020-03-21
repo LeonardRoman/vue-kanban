@@ -1,0 +1,7 @@
+@mixin pseudo-element {
+  display: block;
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+}

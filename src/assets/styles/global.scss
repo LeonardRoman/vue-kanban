@@ -15,9 +15,9 @@ body {
 }
 
 button {
-  display: block;
+  //display: block;
   border: none;
-  cursor: pointer;
+  background: none;
 }
 
 ol, ul > * {
@@ -27,5 +27,3 @@ ol, ul > * {
 *:focus {
   outline: none;
 }
-
-

@@ -1,6 +1,5 @@
 module.exports = {
   publicPath: '/vue-kanban/',
-  lintOnSave: false,
   css: {
     loaderOptions: {
       sass: {

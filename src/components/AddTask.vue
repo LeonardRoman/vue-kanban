@@ -3,7 +3,8 @@
     input.addtask(
       v-if="showAddBlock"
       v-model='name'
-      placeholder="Введите текст карточки")
+      placeholder="Введите текст карточки"
+      ref="inputTaskName")
     .control
       button.control-btn.btn-add(
         v-show="!showAddBlock"
@@ -32,6 +33,12 @@
     methods: {
       toggleControlButton () {
         this.showAddBlock = !this.showAddBlock
+        setTimeout(() => {
+          if (this.$refs.inputTaskName) {
+            this.$refs.inputTaskName.focus()
+          }
+        }, 100)
+
       },
       createTask () {
         if (this.name.trim() !== '') {
@@ -82,6 +89,7 @@
 
     &-btn.btn-add:hover {
       background-color: #C4C4C4;
+      border-radius: 3px;
     }
 
 
@@ -102,19 +110,20 @@
     &-btn.btn-no::before {
       @include pseudo-element;
       top: 9px;
-      left: 0;
+      left: 12px;
       line-height: 18px;
       background-image: url("~@/assets/images/icon-cancel.svg");
     }
 
     &-btn.btn-no {
       height: 32px;
-      padding: 0 12px 0 27px;
-      margin-left: 24px;
+      padding: 0 12px 0 36px;
+      margin-left: 12px;
     }
 
     &-btn.btn-no:hover {
       background-color: #C4C4C4;
+      border-radius: 3px;
     }
   }
 

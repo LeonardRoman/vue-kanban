@@ -6,7 +6,8 @@
       textarea.modal-header(v-model="currentTask.name" ref="headerInput")
       textarea.modal-description(
         placeholder="Описание"
-        v-model="currentTask.description")
+        v-model="currentTask.description"
+        ref="textareaTaskDescription")
       .modal__control
         button.modal__control-btn.btn-yes(
           @click.prevent="updateTask")
@@ -24,6 +25,7 @@
     },
     mounted () {
       this.autoResize()
+      this.$refs.textareaTaskDescription.focus()
     },
     methods: {
       updateTask () {

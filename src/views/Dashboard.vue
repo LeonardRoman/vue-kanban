@@ -1,15 +1,27 @@
 <template lang="pug">
   section.dashboard
     .dashboard__column(
-      v-for="(status, indexStatus) of tasksByStatus"
-      :class="'col-' + status.class")
+      v-for="status of statuses")
       .dashboard__column-header(v-text="status.title")
-      .dashboard__column-content(
-        v-for="(task, indexTask) of status.tasks"
-        :key="'task_' + task.id"
-        @click="getCurrentTask({name: task.name, description: task.description, indexStatus, id: task.id})")
-        p {{task.name}}
-      AddTask(:indexStatus="indexStatus")
+      draggable(
+        v-model="tasks[status.name]"
+        :group="{ name: 'tasksList', pull: true, put: true }"
+        :sort="true"
+        preventOnFilter="true"
+        animation="300"
+        ghostClass="ghost-task"
+        dragClass="drag-task"
+        class="draggable-area"
+        @change="change(status.name)"
+        :move="test")
+        transition-group
+          .dashboard__column-content(
+            v-for="task of tasks[status.name]"
+            :key="task.id"
+            :list="tasks"
+            @click="getCurrentTask({name: task.name, description: task.description, statusName: status.name, id: task.id})")
+            p {{task.name}}
+      AddTask(:statusName="status.name")
     EditTask(
       v-if="showEditBlock"
       @toggleEditBlock="toggleEditBlock"
@@ -18,13 +30,14 @@
 </template>
 
 <script>
+  import draggable from 'vuedraggable'
   import AddTask from '@/components/AddTask'
   import EditTask from '@/components/EditTask'
   import { mapState } from 'vuex'
 
   export default {
     name: 'Dashboard',
-    components: { AddTask, EditTask },
+    components: { AddTask, EditTask, draggable },
     data () {
       return {
         showEditBlock: false,
@@ -33,52 +46,43 @@
       }
     },
     computed: {
-      ...mapState(['tasksByStatus'])
+      ...mapState(['tasks', 'statuses']),
     },
     methods: {
       toggleControlButton () {
         this.showAddBlock = !this.showAddBlock
-      },
+      }
+      ,
       toggleEditBlock () {
         this.showEditBlock = !this.showEditBlock
-      },
+      }
+      ,
       getCurrentTask (task) {
         this.currentTask = task
         this.$router.push(`/task/${task.id}`)
         this.toggleEditBlock()
-      },
+      }
+      ,
       updateTask () {
         this.$store.commit('updateTask', {
-          indexStatus: this.currentTask.indexStatus,
+          statusName: this.currentTask.statusName,
           taskId: this.currentTask.id,
           name: this.currentTask.name,
           description: this.currentTask.description,
         })
-        this.$nextTick()
-      }
+      },
+      change (statusName) {
+        this.$store.commit('setTasks', { statusName, tasks: this.tasks })
+      },
     }
   }
 </script>
 
 <style lang="scss">
   .dashboard {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    justify-content: center;
+    display: flex;
     padding: 36px 24px 0 24px;
     align-items: first baseline;
-
-    &__column.col-work {
-      grid-column: 1;
-    }
-
-    &__column.col-check {
-      grid-column: 2;
-    }
-
-    &__column.col-done {
-      grid-column: 3;
-    }
 
     &__column + &__column {
       margin-left: 24px;
@@ -90,6 +94,7 @@
       background-color: $background-card;
       border-radius: 5px;
       padding: 12px;
+      width: 300px;
 
       &-header {
         padding: 12px 0 16px;
@@ -114,4 +119,23 @@
       }
     }
   }
+
+  .ghost-task {
+    background: #BEBEBE;
+    color: #BEBEBE;
+    border-radius: 2px;
+    opacity: 1;
+  }
+
+  .drag-task {
+    background: #C7F1FF;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), 0 2px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 2px;
+  }
+
+  .draggable-area > span {
+    display: block;
+    width: auto;
+  }
+
 </style>

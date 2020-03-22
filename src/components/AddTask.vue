@@ -1,5 +1,5 @@
 <template lang="pug">
-  .container
+  .container(@keyup.enter="createTask")
     input.addtask(
       v-if="showAddBlock"
       v-model='name'
@@ -22,7 +22,7 @@
 <script>
   export default {
     name: 'AddTask',
-    props: { indexStatus: Number },
+    props: { statusName: String },
     data () {
       return {
         showAddBlock: false,
@@ -36,7 +36,7 @@
       createTask () {
         if (this.name.trim() !== '') {
           this.$store.commit('createTask', {
-            indexStatus: this.indexStatus,
+            statusName: this.statusName,
             name: this.name
           })
         }
@@ -94,7 +94,6 @@
 
     &-btn.btn-yes {
       padding: 7px 12px;
-      margin-right: 24px;
       background: #0C7CD5;
       border-radius: 3px;
       color: #FFFFFF;
@@ -103,13 +102,15 @@
     &-btn.btn-no::before {
       @include pseudo-element;
       top: 9px;
-      left: 13px;
+      left: 0;
+      line-height: 18px;
       background-image: url("~@/assets/images/icon-cancel.svg");
     }
 
     &-btn.btn-no {
       height: 32px;
-      padding: 0 12px 0 39px;
+      padding: 0 12px 0 27px;
+      margin-left: 24px;
     }
 
     &-btn.btn-no:hover {

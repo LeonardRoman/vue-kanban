@@ -67,6 +67,7 @@
         margin-bottom: 16px;
         resize: none;
         overflow: hidden;
+        overflow-wrap: break-word;
         background-color: $background-card;
         font-weight: bold;
         font-size: 24px;
@@ -79,6 +80,7 @@
         background-color: $background-text;
         box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
         border-radius: 2px;
+
       }
 
       &-description {

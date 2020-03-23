@@ -12,8 +12,7 @@
         ghostClass="ghost-task"
         dragClass="drag-task"
         class="draggable-area"
-        @change="change(status.name)"
-        :move="test")
+        @change="change(status.name)")
         transition-group(name="task-list-animation")
           .dashboard__column-content(
             v-for="task of tasks[status.name]"
@@ -138,13 +137,15 @@
     width: auto;
   }
 
-	.task-list-animation-leave-active {
-		display: none !important;
-	}
-	.task-list-animation-leave {
-		transition: all 2s;
-	}
-	.task-list-animation-enter {
-		transition: all 2s;
-	}
+  .task-list-animation-leave-active {
+    display: none !important;
+  }
+
+  .task-list-animation-leave {
+    transition: all 2s;
+  }
+
+  .task-list-animation-enter {
+    transition: all 2s;
+  }
 </style>

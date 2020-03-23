@@ -3,8 +3,10 @@
     form.modal
       button.modal-btn.btn-no(
         @click="closeTask")
-      textarea.modal-header(v-model="currentTask.name" ref="headerInput")
-      textarea.modal-description(
+      textarea-autosize.modal-header(
+        v-model="currentTask.name"
+        ref="headerInput")
+      textarea-autosize.modal-description(
         placeholder="Описание"
         v-model="currentTask.description"
         ref="textareaTaskDescription")
@@ -24,8 +26,7 @@
       }
     },
     mounted () {
-      this.autoResize()
-      this.$refs.textareaTaskDescription.focus()
+      this.$refs.textareaTaskDescription.$el.focus()
     },
     methods: {
       updateTask () {
@@ -36,9 +37,6 @@
         this.$emit('toggleEditBlock')
         this.$router.go(-1)
       },
-      autoResize () {
-        this.$refs.headerInput.style = 'height:' + this.$refs.headerInput.scrollHeight + 'px'
-      }
     }
   }
 </script>
